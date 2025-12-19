@@ -66,7 +66,7 @@ const Upload = () => {
       }
 
       // Convert CSV rows to Claim objects
-      const newClaims: Claim[] = data.map(row => csvRowToClaim(row, claimType));
+      const newClaims: Claim[] = (data as Record<string, string>[]).map(row => csvRowToClaim(row, claimType));
       
       clearInterval(progressInterval);
       setUploadProgress(100);

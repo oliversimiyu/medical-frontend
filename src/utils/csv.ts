@@ -64,8 +64,10 @@ export const validateCSVStructure = (headers: string[]): { valid: boolean; error
   };
 };
 
+import type { Claim } from '../types';
+
 // Convert CSV row to Claim object
-export const csvRowToClaim = (row: Record<string, string>, claimType: 'inpatient' | 'outpatient'): Record<string, unknown> => {
+export const csvRowToClaim = (row: Record<string, string>, claimType: 'inpatient' | 'outpatient'): Claim => {
   const amount = parseFloat(row.TotalClaimAmount) || 0;
   const fraudScore = parseFloat(row.PotentialFraud) || 0;
   
