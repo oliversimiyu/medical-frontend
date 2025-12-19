@@ -1,0 +1,67 @@
+[
+  {
+    "id": "CLM-2024-001",
+    "patientId": "PAT-8765432",
+    "providerId": "PRV-1234",
+    "claimDate": "2024-11-15",
+    "amount": 2500.00,
+    "procedureCode": "99213",
+    "diagnosis": "Essential hypertension",
+    "fraudScore": 0.85,
+    "riskLevel": "high",
+    "status": "pending",
+    "flags": ["Duplicate claim", "Unusual amount"]
+  },
+  {
+    "id": "CLM-2024-002",
+    "patientId": "PAT-7654321",
+    "providerId": "PRV-5678",
+    "claimDate": "2024-11-16",
+    "amount": 450.00,
+    "procedureCode": "90834",
+    "diagnosis": "Anxiety disorder",
+    "fraudScore": 0.25,
+    "riskLevel": "low",
+    "status": "cleared",
+    "flags": []
+  },
+  {
+    "id": "CLM-2024-003",
+    "patientId": "PAT-6543210",
+    "providerId": "PRV-1234",
+    "claimDate": "2024-11-17",
+    "amount": 3200.00,
+    "procedureCode": "45378",
+    "diagnosis": "Colorectal screening",
+    "fraudScore": 0.72,
+    "riskLevel": "high",
+    "status": "suspicious",
+    "flags": ["High frequency", "Same provider pattern"]
+  },
+  {
+    "id": "CLM-2024-004",
+    "patientId": "PAT-5432109",
+    "providerId": "PRV-9012",
+    "claimDate": "2024-11-18",
+    "amount": 180.00,
+    "procedureCode": "99213",
+    "diagnosis": "Type 2 diabetes",
+    "fraudScore": 0.15,
+    "riskLevel": "low",
+    "status": "cleared",
+    "flags": []
+  },
+  {
+    "id": "CLM-2024-005",
+    "patientId": "PAT-4321098",
+    "providerId": "PRV-3456",
+    "claimDate": "2024-11-19",
+    "amount": 1800.00,
+    "procedureCode": "93000",
+    "diagnosis": "Chest pain",
+    "fraudScore": 0.55,
+    "riskLevel": "medium",
+    "status": "reviewed",
+    "flags": ["Moderate risk indicator"]
+  }
+]

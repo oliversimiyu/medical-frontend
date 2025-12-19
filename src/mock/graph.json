@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "id": "PAT-8765432",
+      "label": "Patient ****5432",
+      "type": "patient",
+      "suspicious": true,
+      "data": { "age": 45, "claimCount": 8 }
+    },
+    {
+      "id": "PAT-7654321",
+      "label": "Patient ****4321",
+      "type": "patient",
+      "suspicious": false,
+      "data": { "age": 32, "claimCount": 2 }
+    },
+    {
+      "id": "PRV-1234",
+      "label": "Provider PRV***",
+      "type": "provider",
+      "suspicious": true,
+      "data": { "name": "Medical Center A", "specialty": "Internal Medicine" }
+    },
+    {
+      "id": "PRV-5678",
+      "label": "Provider PRV***",
+      "type": "provider",
+      "suspicious": false,
+      "data": { "name": "Therapy Clinic B", "specialty": "Psychology" }
+    },
+    {
+      "id": "CLM-2024-001",
+      "label": "Claim #001",
+      "type": "claim",
+      "suspicious": true,
+      "data": { "amount": 2500, "fraudScore": 0.85 }
+    },
+    {
+      "id": "CLM-2024-002",
+      "label": "Claim #002",
+      "type": "claim",
+      "suspicious": false,
+      "data": { "amount": 450, "fraudScore": 0.25 }
+    },
+    {
+      "id": "CLM-2024-003",
+      "label": "Claim #003",
+      "type": "claim",
+      "suspicious": true,
+      "data": { "amount": 3200, "fraudScore": 0.72 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "PAT-8765432", "target": "CLM-2024-001", "label": "filed" },
+    { "id": "e2", "source": "CLM-2024-001", "target": "PRV-1234", "label": "provider" },
+    { "id": "e3", "source": "PAT-7654321", "target": "CLM-2024-002", "label": "filed" },
+    { "id": "e4", "source": "CLM-2024-002", "target": "PRV-5678", "label": "provider" },
+    { "id": "e5", "source": "PAT-8765432", "target": "CLM-2024-003", "label": "filed" },
+    { "id": "e6", "source": "CLM-2024-003", "target": "PRV-1234", "label": "provider" }
+  ]
+}

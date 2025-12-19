@@ -1,0 +1,34 @@
+[
+  {
+    "id": "AUD-001",
+    "timestamp": "2024-11-20T10:30:00Z",
+    "action": "CSV Upload",
+    "user": "admin@example.com",
+    "details": "Uploaded claims-nov-2024.csv with 150 records",
+    "claimId": null
+  },
+  {
+    "id": "AUD-002",
+    "timestamp": "2024-11-20T11:15:00Z",
+    "action": "Claim Review",
+    "user": "investigator@example.com",
+    "details": "Marked claim as suspicious",
+    "claimId": "CLM-2024-001"
+  },
+  {
+    "id": "AUD-003",
+    "timestamp": "2024-11-20T12:00:00Z",
+    "action": "Status Change",
+    "user": "investigator@example.com",
+    "details": "Changed status from pending to reviewed",
+    "claimId": "CLM-2024-005"
+  },
+  {
+    "id": "AUD-004",
+    "timestamp": "2024-11-20T14:45:00Z",
+    "action": "Claim Review",
+    "user": "admin@example.com",
+    "details": "Cleared claim after investigation",
+    "claimId": "CLM-2024-002"
+  }
+]
