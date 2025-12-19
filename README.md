@@ -89,18 +89,55 @@ The authentication is frontend-only for demo purposes. You can also use any emai
 - **CSV Parsing**: PapaParse
 - **Notifications**: React Toastify
 
-## 📝 CSV Upload Format
+## 📝 Dataset Specification
 
-Required columns for CSV upload:
-- `claimId`
-- `patientId`
-- `providerId`
-- `claimDate`
-- `amount`
-- `procedureCode`
-- `diagnosis`
+The platform is designed to work with comprehensive healthcare fraud detection data:
 
-Download a sample template from the Upload page.
+### Dataset Components
+
+| Component | Records | Features | Description |
+|-----------|---------|----------|-------------|
+| **Patients Data** | 138,556 | 29 | Patient demographics, health status, utilization behavior, temporal patterns, network attributes, and derived fraud features |
+| **Inpatient Claims** | 40,474 | 30 | Hospital admission records with diagnosis, procedures, and claim amounts |
+| **Outpatient Claims** | 557,835 | 27 | Service records with procedures and provider information |
+| **Provider Data** | 5,410 | 12 | Fraud classification with facility details and performance metrics |
+| **Insurance Agents** | 1,000 | 5 | Claim verification and approval records |
+| **Total** | 743,275 | - | Combined healthcare transactions linked by Provider ID and Beneficiary ID |
+
+### CSV Upload Format
+
+#### Inpatient Claims (30 features)
+Required columns:
+- `claimId`, `patientId`, `providerId`
+- `admissionDate`, `dischargeDate`
+- `diagnosisCode` (ICD-10), `procedureId`, `numberOfProcedures`
+- `doctorName`, `diagnosisRelatedGroup`, `claimAmount`
+
+#### Outpatient Claims (27 features)
+Required columns:
+- `claimId`, `patientId`, `providerId`
+- `serviceDate`, `procedureId`, `doctorName`, `claimAmount`
+
+#### Unified Claims Upload
+Minimum required columns:
+- `claimId`, `patientId`, `providerId`, `claimDate`
+- `claimAmount`, `procedureId`, `diagnosisCode`
+- `claimType` (inpatient/outpatient)
+
+### Patient Data Features (29 attributes)
+
+1. **Demographics (7)**: Age, Gender, County, Residence Type, Marital Status, Employment Status, Income Category
+2. **Health Status (5)**: Chronic Conditions (ICD-10), Disease Severity Index, Comorbidities, Risk Category
+3. **Utilization Behavior (7)**: Claim counts, amounts, visit frequency, provider count, referrals
+4. **Temporal Patterns (3)**: Seasonality, time between visits, time since last claim
+5. **Network Attributes (3)**: Linked providers, insurance agents, provider-agent pairs
+6. **Derived Features (4)**: Fraud Propensity Score, Treatment Diversity Index, Cost per Condition, Claim-to-Diagnosis Ratio
+
+### Provider Data Features (12 attributes)
+
+Facility Name, Type (Clinic/Hospital/Pharmacy), Location (County/Town), Ownership Type (Private/Public), Claims Submitted, Average Claim Amount, Claim Frequency, Unique Patients/Agents, Rejection Rate, **Fraud Label** (Binary Classification)
+
+Download sample templates from the Upload page.
 
 ## 🔒 Privacy Features
 

@@ -1,0 +1,16 @@
+PatientID,Gender,Race,State,County,DateOfBirth,DateOfDeath,ChronicCondition_Alzheimers,ChronicCondition_Heartfailure,ChronicCondition_KidneyDisease,ChronicCondition_Cancer,ChronicCondition_ObstructivePulmonary,ChronicCondition_Depression,ChronicCondition_Diabetes,ChronicCondition_IschemicHeart,ChronicCondition_Osteoporasis,ChronicCondition_rheumatoidarthritis,ChronicCondition_stroke,IPAnnualReimbursementAmt,IPAnnualDeductibleAmt,OPAnnualReimbursementAmt,OPAnnualDeductibleAmt,Age,NoOfMonths_PartACov,NoOfMonths_PartBCov,ChronicConditionCount,IPClaimCount,OPClaimCount,TotalClaimCount,AvgClaimAmount
+PT0001,1,1,CA,Los Angeles,1945-03-15,,2,1,0,0,1,0,1,1,0,0,0,45230.50,1200,8920.30,850,80,12,12,5,3,12,15,3584.72
+PT0002,2,2,NY,New York,1952-08-22,,0,0,0,0,0,0,0,0,0,0,0,12450.00,500,4320.50,400,73,12,12,0,1,8,9,1863.39
+PT0003,1,3,TX,Harris,1938-11-30,2023-05-14,2,2,2,1,1,1,2,2,1,1,2,128450.75,2500,45680.20,2000,85,12,12,12,8,25,33,5270.93
+PT0004,2,1,FL,Miami-Dade,1960-05-18,,0,1,0,0,0,0,1,0,0,0,0,18920.40,800,6450.80,600,65,12,12,2,2,10,12,2114.27
+PT0005,1,2,IL,Cook,1948-12-03,,1,0,1,0,1,0,1,1,0,0,1,35670.90,1500,12340.60,1100,77,12,12,6,4,15,19,2529.55
+PT0006,2,4,AZ,Maricopa,1955-07-28,,0,0,0,0,0,1,0,0,0,0,0,8920.30,400,3210.50,300,70,12,12,1,1,6,7,1732.97
+PT0007,1,1,PA,Philadelphia,1942-02-14,,2,1,1,1,1,0,2,1,1,0,1,85340.20,2200,28450.70,1800,83,12,12,9,6,18,24,4744.12
+PT0008,2,3,OH,Cuyahoga,1958-09-25,,0,0,0,0,0,0,1,0,0,0,0,15670.50,700,5430.20,500,67,12,12,1,2,9,11,1918.25
+PT0009,1,2,GA,Fulton,1950-04-11,,1,1,0,0,1,1,1,1,0,1,0,42350.80,1600,14230.90,1200,75,12,12,7,3,14,17,3328.29
+PT0010,2,1,WA,King,1963-06-20,,0,0,0,0,0,0,0,0,0,0,0,6780.40,300,2890.60,250,62,12,12,0,0,5,5,1934.20
+PT0011,1,5,NC,Wake,1947-10-08,,2,2,1,0,1,0,2,1,0,0,1,62450.30,1900,22150.40,1500,78,12,12,8,5,16,21,4028.59
+PT0012,2,2,MI,Wayne,1954-01-17,,0,1,0,0,0,0,1,0,0,0,0,19850.60,900,7120.80,700,71,12,12,2,2,11,13,2074.95
+PT0013,1,3,VA,Fairfax,1944-08-30,,1,1,2,1,1,1,1,2,1,0,1,95670.90,2400,35420.50,2100,81,12,12,10,7,20,27,4876.33
+PT0014,2,1,MA,Suffolk,1961-03-22,,0,0,0,0,0,0,0,0,0,0,0,9340.20,450,3670.40,350,64,12,12,0,1,7,8,1626.33
+PT0015,1,4,TN,Shelby,1949-11-05,,1,0,1,0,1,0,1,1,0,0,0,28450.70,1300,10230.90,950,76,12,12,5,3,13,16,2417.29

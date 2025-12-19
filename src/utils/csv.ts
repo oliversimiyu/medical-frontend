@@ -2,19 +2,56 @@
 
 import Papa from 'papaparse';
 
-export const REQUIRED_CSV_COLUMNS = [
-  'claimId',
-  'patientId',
-  'providerId',
-  'claimDate',
-  'amount',
-  'procedureCode',
-  'diagnosis'
+// Required columns based on dataset specification
+export const REQUIRED_INPATIENT_COLUMNS = [
+  'ClaimID',
+  'PatientID',
+  'ProviderID',
+  'AdmissionDate',
+  'DischargeDate',
+  'ClmDiagnosisCode_1',
+  'ClmProcedureCode_1',
+  'TotalClaimAmount'
 ];
 
-export const validateCSVStructure = (headers: string[]): { valid: boolean; errors: string[] } => {
+export const REQUIRED_OUTPATIENT_COLUMNS = [
+  'ClaimID',
+  'PatientID',
+  'ProviderID',
+  'ServiceDate',
+  'ClmProcedureCode_1',
+  'TotalClaimAmount'
+];
+
+export const REQUIRED_CSV_COLUMNS = [
+  'ClaimID',
+  'PatientID',
+  'ProviderID',
+  'TotalClaimAmount'
+];
+
+export const validateCSVStructure = (headers: string[]): { valid: boolean; errors: string[]; claimType?: 'inpatient' | 'outpatient' } => {
   const errors: string[] = [];
-  const missing = REQUIRED_CSV_COLUMNS.filter(col => !headers.includes(col));
+  
+  // Detect claim type based on columns
+  const hasAdmissionDate = headers.includes('AdmissionDate');
+  const hasServiceDate = headers.includes('ServiceDate');
+  
+  let claimType: 'inpatient' | 'outpatient' | undefined;
+  let requiredColumns: string[];
+  
+  if (hasAdmissionDate) {
+    claimType = 'inpatient';
+    requiredColumns = REQUIRED_INPATIENT_COLUMNS;
+  } else if (hasServiceDate) {
+    claimType = 'outpatient';
+    requiredColumns = REQUIRED_OUTPATIENT_COLUMNS;
+  } else {
+    // Fallback to basic validation
+    requiredColumns = REQUIRED_CSV_COLUMNS;
+  }
+  
+  const missing = requiredColumns.filter(col => !headers.includes(col));
   
   if (missing.length > 0) {
     errors.push(`Missing required columns: ${missing.join(', ')}`);
@@ -22,11 +59,39 @@ export const validateCSVStructure = (headers: string[]): { valid: boolean; error
   
   return {
     valid: errors.length === 0,
-    errors
+    errors,
+    claimType
   };
 };
 
-export const parseCSVFile = (file: File): Promise<{ data: unknown[]; errors: string[] }> => {
+// Convert CSV row to Claim object
+export const csvRowToClaim = (row: Record<string, string>, claimType: 'inpatient' | 'outpatient'): Record<string, unknown> => {
+  const amount = parseFloat(row.TotalClaimAmount) || 0;
+  const fraudScore = parseFloat(row.PotentialFraud) || 0;
+  
+  return {
+    id: row.ClaimID,
+    claimDate: row.ClaimStartDate || row.ServiceDate || new Date().toISOString().split('T')[0],
+    amount,
+    claimType,
+    patientId: row.PatientID,
+    providerId: row.ProviderID,
+    doctorName: row.AttendingPhysician,
+    procedureId: row.ClmProcedureCode_1,
+    diagnosisCode: row.ClmDiagnosisCode_1,
+    numberOfProcedures: parseInt(row.NumberOfProcedures) || 1,
+    diagnosisRelatedGroup: row.DiagnosisRelatedGroup,
+    admissionDate: row.AdmissionDate,
+    dischargeDate: row.DischargeDate,
+    serviceDate: row.ServiceDate,
+    fraudScore,
+    riskLevel: fraudScore > 0.7 ? 'high' : fraudScore > 0.4 ? 'medium' : 'low',
+    status: 'pending',
+    flags: fraudScore > 0.5 ? ['Suspicious Pattern'] : []
+  };
+};
+
+export const parseCSVFile = (file: File): Promise<{ data: unknown[]; errors: string[]; claimType?: 'inpatient' | 'outpatient' }> => {
   return new Promise((resolve) => {
     Papa.parse(file, {
       header: true,
@@ -47,7 +112,8 @@ export const parseCSVFile = (file: File): Promise<{ data: unknown[]; errors: str
         
         resolve({
           data: results.data,
-          errors
+          errors,
+          claimType: validation.claimType
         });
       },
       error: (error) => {

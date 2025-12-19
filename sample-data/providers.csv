@@ -1,0 +1,16 @@
+ProviderID,ProviderName,ProviderType,State,City,Specialty,YearsOfExperience,TotalPatients,TotalClaims,AvgClaimAmount,HighRiskProcedureCount,FraudLabel
+PRV001,City General Hospital,Hospital,CA,Los Angeles,Multi-Specialty,25,4523,12845,2847.50,234,0
+PRV002,Metro Medical Center,Hospital,NY,New York,Multi-Specialty,18,3876,10234,3125.80,456,0
+PRV003,Valley Health Clinic,Clinic,TX,Houston,Primary Care,12,2145,5678,1456.30,45,0
+PRV004,Westside Cardiac Center,Specialty Center,FL,Miami,Cardiology,15,1892,4523,4238.90,289,0
+PRV005,Central Neurological Institute,Specialty Center,IL,Chicago,Neurology,20,2234,6789,3847.20,312,0
+PRV006,Riverside Healthcare,Hospital,AZ,Phoenix,Multi-Specialty,22,5123,15678,2956.40,378,1
+PRV007,Advanced Surgical Associates,Surgical Center,PA,Philadelphia,Surgery,8,987,3456,8234.70,892,1
+PRV008,Community Health Partners,Clinic,OH,Cleveland,Family Medicine,10,1678,4234,1678.50,67,0
+PRV009,Elite Cancer Treatment Center,Specialty Center,GA,Atlanta,Oncology,14,1234,3789,6847.30,445,1
+PRV010,Sunshine Senior Care,Nursing Home,WA,Seattle,Geriatrics,16,2456,7891,2134.80,156,0
+PRV011,QuickCare Urgent Clinic,Urgent Care,NC,Raleigh,Emergency Medicine,5,3245,8976,987.60,89,0
+PRV012,Premium Diagnostics Lab,Laboratory,MI,Detroit,Diagnostics,11,4567,12345,456.90,12,0
+PRV013,Orthopedic Excellence Center,Specialty Center,VA,Richmond,Orthopedics,19,1567,4892,3567.40,267,0
+PRV014,Harbor View Medical,Hospital,MA,Boston,Multi-Specialty,28,6234,18456,3124.50,423,0
+PRV015,Southern Rehabilitation Center,Rehab Center,TN,Memphis,Physical Therapy,13,1893,5234,1789.30,78,0

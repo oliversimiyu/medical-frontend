@@ -1,30 +1,105 @@
 // Core data types for the Medical Insurance Fraud Detection Platform
 
 export interface Claim {
+  // Basic Claim Info
   id: string;
-  patientId: string;
-  providerId: string;
   claimDate: string;
   amount: number;
-  procedureCode: string;
-  diagnosis: string;
+  claimType: 'inpatient' | 'outpatient';
+  
+  // Patient Reference
+  patientId: string;
+  
+  // Provider Reference
+  providerId: string;
+  doctorName?: string;
+  
+  // Medical Details
+  procedureId: string;
+  diagnosisCode: string; // ICD-10
+  numberOfProcedures?: number;
+  diagnosisRelatedGroup?: string;
+  
+  // Dates (for inpatient)
+  admissionDate?: string;
+  dischargeDate?: string;
+  serviceDate?: string; // for outpatient
+  
+  // Fraud Detection
   fraudScore: number;
   riskLevel: 'low' | 'medium' | 'high';
   status: 'pending' | 'reviewed' | 'suspicious' | 'cleared';
   flags: string[];
 }
 
-export interface Provider {
-  id: string;
-  name: string;
-  specialty: string;
-  location: string;
-}
-
 export interface Patient {
   id: string;
+  
+  // Demographic Attributes
   age: number;
   gender: string;
+  county: string;
+  residenceType: 'urban' | 'rural';
+  maritalStatus: string;
+  employmentStatus: string;
+  incomeCategory: string;
+  
+  // Health Status Attributes
+  chronicConditions: string[]; // ICD-10 Codes
+  numberOfChronicConditions: number;
+  diseaseSeverityIndex: number;
+  comorbidities: string[];
+  riskCategory: 'low' | 'moderate' | 'high';
+  
+  // Utilization Behavior
+  numberOfClaims: number;
+  totalClaimAmount: number;
+  averageClaimValue: number;
+  frequencyOfVisitsMonthly: number;
+  frequencyOfVisitsAnnually: number;
+  numberOfProvidersVisited: number;
+  referralCount: number;
+  visitTypes: { inpatient: number; outpatient: number };
+  
+  // Temporal Patterns
+  claimSeasonality: string;
+  timeBetweenVisits: number; // days
+  timeSinceLastClaim: number; // days
+  
+  // Network Attributes
+  numberOfLinkedProviders: number;
+  numberOfLinkedInsuranceAgents: number;
+  commonProviderAgentPairs: Array<{ providerId: string; agentId: string }>;
+  
+  // Derived Features
+  claimToDiagnosisRatio: number;
+  costPerChronicCondition: number;
+  treatmentDiversityIndex: number;
+  fraudPropensityScore: number;
+}
+
+export interface Provider {
+  id: string;
+  facilityName: string;
+  facilityType: 'clinic' | 'hospital' | 'pharmacy';
+  county: string;
+  town: string;
+  ownershipType: 'private' | 'public';
+  numberOfClaimsSubmitted: number;
+  averageClaimAmount: number;
+  claimFrequencyPerMonth: number;
+  numberOfUniquePatients: number;
+  numberOfUniqueInsuranceAgents: number;
+  claimRejectionRate: number;
+  fraudLabel: boolean; // Binary fraud classification
+}
+
+export interface InsuranceAgent {
+  id: string;
+  providerId: string;
+  claimId: string;
+  approvalDate: string;
+  approvalStatus: 'approved' | 'rejected' | 'pending';
 }
 
 export interface GraphNode {

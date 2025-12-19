@@ -29,10 +29,6 @@ const Layout = ({ children }: LayoutProps) => {
       <header className="header">
         <div className="header-content">
           <h1>🏥 Fraud Detection Platform</h1>
-          <div className="user-info">
-            <span>{currentUser}</span>
-            <button onClick={logout} className="btn-logout">Logout</button>
-          </div>
         </div>
       </header>
 
@@ -50,6 +46,20 @@ const Layout = ({ children }: LayoutProps) => {
               </Link>
             ))}
           </nav>
+          
+          <div className="user-profile-section">
+            <div className="settings-option">
+              <span className="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </div>
+            <div className="user-profile">
+              <div className="user-avatar">👤</div>
+              <div className="user-details">
+                <div className="user-email">{currentUser}</div>
+                <button onClick={logout} className="btn-logout-sidebar">Logout</button>
+              </div>
+            </div>
+          </div>
         </aside>
 
         <main className="content">
@@ -58,7 +68,7 @@ const Layout = ({ children }: LayoutProps) => {
       </div>
 
       <footer className="footer">
-        <p>&copy; 2024 Medical Insurance Fraud Detection Platform. All rights reserved.</p>
+        <p>&copy; 2025 Medical Insurance Fraud Detection Platform. All rights reserved.</p>
       </footer>
     </div>
   );

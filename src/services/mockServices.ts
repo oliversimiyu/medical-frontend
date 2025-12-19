@@ -9,13 +9,13 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 export const mockClaimsService = {
   async fetchClaims(): Promise<Claim[]> {
     await delay(800);
-    return claimsData as Claim[];
+    return claimsData as unknown as Claim[];
   },
 
   async fetchClaimById(id: string): Promise<Claim | null> {
     await delay(500);
     const claim = claimsData.find((c) => c.id === id);
-    return claim ? (claim as Claim) : null;
+    return claim ? (claim as unknown as Claim) : null;
   },
 
   async uploadClaims(): Promise<{ success: boolean; count: number; errors: string[] }> {

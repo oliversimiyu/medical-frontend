@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from 'react';
 import { useStore } from '../../state/store';
-import { parseCSVFile, validateFileType, validateFileSize, REQUIRED_CSV_COLUMNS } from '../../utils/csv';
-import { mockClaimsService } from '../../services/mockServices';
+import { parseCSVFile, validateFileType, validateFileSize, csvRowToClaim } from '../../utils/csv';
+import type { Claim } from '../../types';
 import { toast } from 'react-toastify';
 import './Upload.css';
 
@@ -11,7 +11,7 @@ const Upload = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
-  const { uploadHistory, addUpload } = useStore();
+  const { uploadHistory, addUpload, claims, setClaims } = useStore();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,8 +48,8 @@ const Upload = () => {
         });
       }, 200);
 
-      // Validate CSV structure
-      const { errors } = await parseCSVFile(selectedFile);
+      // Validate and parse CSV
+      const { data, errors, claimType } = await parseCSVFile(selectedFile);
       
       if (errors.length > 0) {
         clearInterval(progressInterval);
@@ -58,34 +58,35 @@ const Upload = () => {
         return;
       }
 
-      // Simulate upload
-      const result = await mockClaimsService.uploadClaims();
+      if (!claimType) {
+        clearInterval(progressInterval);
+        toast.error('Unable to determine claim type (inpatient/outpatient)');
+        setUploading(false);
+        return;
+      }
+
+      // Convert CSV rows to Claim objects
+      const newClaims: Claim[] = data.map(row => csvRowToClaim(row, claimType));
+      
       clearInterval(progressInterval);
       setUploadProgress(100);
 
-      if (result.success) {
-        addUpload({
-          id: `UPL-${Date.now()}`,
-          filename: selectedFile.name,
-          uploadDate: new Date().toISOString(),
-          recordCount: result.count,
-          status: 'success',
-        });
-        toast.success(`Successfully uploaded ${result.count} claims!`);
-        setSelectedFile(null);
-        // Reset file input
-        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
-      } else {
-        toast.error(`Upload failed: ${result.errors.join(', ')}`);
-        addUpload({
-          id: `UPL-${Date.now()}`,
-          filename: selectedFile.name,
-          uploadDate: new Date().toISOString(),
-          recordCount: 0,
-          status: 'failed',
-        });
-      }
+      // Add claims to store
+      setClaims([...claims, ...newClaims]);
+      
+      addUpload({
+        id: `UPL-${Date.now()}`,
+        filename: selectedFile.name,
+        uploadDate: new Date().toISOString(),
+        recordCount: newClaims.length,
+        status: 'success',
+      });
+      
+      toast.success(`Successfully uploaded ${newClaims.length} claims!`);
+      setSelectedFile(null);
+      // Reset file input
+      const fileInput = document.getElementById('file-input') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
     } catch {
       toast.error('Upload failed due to an unexpected error.');
     } finally {
@@ -96,8 +97,8 @@ const Upload = () => {
 
   const downloadTemplate = () => {
     const csvContent = [
-      REQUIRED_CSV_COLUMNS.join(','),
-      'CLM-2024-001,PAT-1234567,PRV-5678,2024-11-20,500.00,99213,Essential hypertension',
+      'ClaimID,PatientID,ProviderID,ServiceDate,ClmProcedureCode_1,ClmDiagnosisCode_1,TotalClaimAmount,ClaimApproved,PotentialFraud',
+      'CLM-OP-001,PT0001,PRV001,2024-11-20,4019,I10,1500.00,1,0',
     ].join('\n');
     
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -118,16 +119,18 @@ const Upload = () => {
       <div className="upload-card">
         <h2>CSV File Upload</h2>
         <p className="upload-description">
-          Upload a CSV file containing claims data. The file must include the following columns:
+          Upload a CSV file containing claims data. Supports both inpatient and outpatient claim formats.
         </p>
         
         <div className="required-columns">
-          <strong>Required Columns:</strong>
+          <strong>Core Required Columns:</strong>
           <ul>
-            {REQUIRED_CSV_COLUMNS.map((col) => (
-              <li key={col}><code>{col}</code></li>
-            ))}
+            <li><code>ClaimID</code> - Unique claim identifier</li>
+            <li><code>PatientID</code> - Patient identifier</li>
+            <li><code>ProviderID</code> - Provider identifier</li>
+            <li><code>TotalClaimAmount</code> - Total claim amount</li>
           </ul>
+          <p><small>Additional columns required based on claim type (inpatient: AdmissionDate/DischargeDate, outpatient: ServiceDate)</small></p>
         </div>
 
         <button onClick={downloadTemplate} className="btn-download">

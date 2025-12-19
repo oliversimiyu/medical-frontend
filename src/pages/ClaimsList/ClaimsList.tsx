@@ -18,8 +18,11 @@ const ClaimsList = () => {
   useEffect(() => {
     const loadClaims = async () => {
       try {
-        const data = await mockClaimsService.fetchClaims();
-        setClaims(data);
+        // Only load mock claims if the store is empty
+        if (claims.length === 0) {
+          const data = await mockClaimsService.fetchClaims();
+          setClaims(data);
+        }
       } catch (error) {
         console.error('Failed to load claims:', error);
       } finally {
@@ -28,7 +31,7 @@ const ClaimsList = () => {
     };
 
     loadClaims();
-  }, [setClaims]);
+  }, [setClaims, claims.length]);
 
   const handleSort = (field: keyof Claim) => {
     if (sortField === field) {
@@ -50,7 +53,7 @@ const ClaimsList = () => {
     filteredClaims = filteredClaims.filter(
       (c) =>
         c.id.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        c.diagnosis.toLowerCase().includes(filters.searchTerm.toLowerCase())
+        c.diagnosisCode.toLowerCase().includes(filters.searchTerm.toLowerCase())
     );
   }
   if (filters.riskLevel) {
@@ -65,6 +68,7 @@ const ClaimsList = () => {
     const aVal = a[sortField];
     const bVal = b[sortField];
     const modifier = sortDirection === 'asc' ? 1 : -1;
+    if (aVal === undefined || bVal === undefined) return 0;
     if (aVal < bVal) return -1 * modifier;
     if (aVal > bVal) return 1 * modifier;
     return 0;

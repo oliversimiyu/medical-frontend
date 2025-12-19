@@ -77,7 +77,7 @@ const Investigation = () => {
                     <span className="queue-id">{claim.id}</span>
                     <span className="queue-score">Score: {claim.fraudScore.toFixed(2)}</span>
                   </div>
-                  <p className="queue-diagnosis">{claim.diagnosis}</p>
+                  <p className="queue-diagnosis">{claim.diagnosisCode}</p>
                   <div className="queue-flags">
                     {claim.flags.map((flag, idx) => (
                       <span key={idx} className="flag-tag">⚠️ {flag}</span>

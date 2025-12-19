@@ -91,12 +91,12 @@ const ClaimDetail = () => {
               <span className="amount">${claim.amount.toFixed(2)}</span>
             </div>
             <div className="info-item">
-              <label>Procedure Code:</label>
-              <span>{claim.procedureCode}</span>
+              <label>Procedure ID:</label>
+              <span>{claim.procedureId}</span>
             </div>
             <div className="info-item">
-              <label>Diagnosis:</label>
-              <span>{claim.diagnosis}</span>
+              <label>Diagnosis Code:</label>
+              <span>{claim.diagnosisCode}</span>
             </div>
           </div>
         </div>

@@ -1,0 +1,2 @@
+ClaimID,PatientID,ProviderID,ServiceDate,ClmProcedureCode_1,ClmDiagnosisCode_1,TotalClaimAmount,ClaimApproved,PotentialFraud
+CLM-OP-001,PT0001,PRV001,2024-11-20,4019,I10,1500.00,1,0
