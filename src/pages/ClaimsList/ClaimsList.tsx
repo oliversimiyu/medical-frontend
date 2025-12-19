@@ -12,7 +12,7 @@ const ClaimsList = () => {
   const [sortField, setSortField] = useState<keyof Claim>('claimDate');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 15;
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -9,6 +9,8 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
   const { uploadHistory, addUpload } = useStore();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -178,8 +180,9 @@ const Upload = () => {
         {uploadHistory.length === 0 ? (
           <p className="empty-state">No uploads yet</p>
         ) : (
+          <>
           <div className="history-list">
-            {uploadHistory.map((upload) => (
+            {uploadHistory.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((upload) => (
               <div key={upload.id} className="history-item">
                 <div className="history-icon">
                   {upload.status === 'success' ? '✅' : upload.status === 'failed' ? '❌' : '⏳'}
@@ -196,6 +199,24 @@ const Upload = () => {
               </div>
             ))}
           </div>
+          <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="btn-secondary"
+            >
+              Previous
+            </button>
+            <span>Page {currentPage} of {Math.ceil(uploadHistory.length / itemsPerPage)}</span>
+            <button
+              disabled={currentPage >= Math.ceil(uploadHistory.length / itemsPerPage)}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="btn-secondary"
+            >
+              Next
+            </button>
+          </div>
+          </>
         )}
       </div>
     </div>

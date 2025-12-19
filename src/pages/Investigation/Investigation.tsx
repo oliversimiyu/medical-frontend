@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '../../state/store';
 import { mockClaimsService } from '../../services/mockServices';
 import './Investigation.css';
 
 const Investigation = () => {
   const { claims, setClaims, investigationNotes } = useStore();
+  const [claimsPage, setClaimsPage] = useState(1);
+  const [notesPage, setNotesPage] = useState(1);
+  const itemsPerPage = 15;
 
   useEffect(() => {
     const loadClaims = async () => {
@@ -66,8 +69,9 @@ const Investigation = () => {
           {suspiciousClaims.length === 0 ? (
             <p className="empty-state">No suspicious claims at this time</p>
           ) : (
+            <>
             <div className="claims-queue">
-              {suspiciousClaims.slice(0, 5).map((claim) => (
+              {suspiciousClaims.slice((claimsPage - 1) * itemsPerPage, claimsPage * itemsPerPage).map((claim) => (
                 <div key={claim.id} className="queue-item">
                   <div className="queue-header">
                     <span className="queue-id">{claim.id}</span>
@@ -82,6 +86,24 @@ const Investigation = () => {
                 </div>
               ))}
             </div>
+            <div className="pagination">
+              <button
+                disabled={claimsPage === 1}
+                onClick={() => setClaimsPage(claimsPage - 1)}
+                className="btn-secondary"
+              >
+                Previous
+              </button>
+              <span>Page {claimsPage} of {Math.ceil(suspiciousClaims.length / itemsPerPage)}</span>
+              <button
+                disabled={claimsPage >= Math.ceil(suspiciousClaims.length / itemsPerPage)}
+                onClick={() => setClaimsPage(claimsPage + 1)}
+                className="btn-secondary"
+              >
+                Next
+              </button>
+            </div>
+            </>
           )}
         </div>
 
@@ -90,8 +112,9 @@ const Investigation = () => {
           {investigationNotes.length === 0 ? (
             <p className="empty-state">No investigation notes yet</p>
           ) : (
+            <>
             <div className="notes-list">
-              {investigationNotes.slice(0, 5).map((note) => (
+              {investigationNotes.slice((notesPage - 1) * itemsPerPage, notesPage * itemsPerPage).map((note) => (
                 <div key={note.id} className="note-item">
                   <div className="note-header">
                     <span className="note-claim">{note.claimId}</span>
@@ -102,6 +125,24 @@ const Investigation = () => {
                 </div>
               ))}
             </div>
+            <div className="pagination">
+              <button
+                disabled={notesPage === 1}
+                onClick={() => setNotesPage(notesPage - 1)}
+                className="btn-secondary"
+              >
+                Previous
+              </button>
+              <span>Page {notesPage} of {Math.ceil(investigationNotes.length / itemsPerPage)}</span>
+              <button
+                disabled={notesPage >= Math.ceil(investigationNotes.length / itemsPerPage)}
+                onClick={() => setNotesPage(notesPage + 1)}
+                className="btn-secondary"
+              >
+                Next
+              </button>
+            </div>
+            </>
           )}
         </div>
       </div>

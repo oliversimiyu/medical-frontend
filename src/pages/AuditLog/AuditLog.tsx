@@ -9,6 +9,8 @@ const AuditLog = () => {
   const [loading, setLoading] = useState(true);
   const [filterAction, setFilterAction] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
 
   useEffect(() => {
     const loadAuditLog = async () => {
@@ -109,8 +111,9 @@ const AuditLog = () => {
         {filteredLog.length === 0 ? (
           <p className="empty-state">No audit entries found</p>
         ) : (
+          <>
           <div className="timeline">
-            {filteredLog.map((entry) => (
+            {filteredLog.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((entry) => (
               <div key={entry.id} className="timeline-item">
                 <div
                   className="timeline-marker"
@@ -136,6 +139,24 @@ const AuditLog = () => {
               </div>
             ))}
           </div>
+          <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="btn-secondary"
+            >
+              Previous
+            </button>
+            <span>Page {currentPage} of {Math.ceil(filteredLog.length / itemsPerPage)}</span>
+            <button
+              disabled={currentPage >= Math.ceil(filteredLog.length / itemsPerPage)}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="btn-secondary"
+            >
+              Next
+            </button>
+          </div>
+          </>
         )}
       </div>
     </div>

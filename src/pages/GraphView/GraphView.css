@@ -1,6 +1,6 @@
 .graph-view {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 2rem;
   height: calc(100vh - 180px);
   display: flex;
   flex-direction: column;

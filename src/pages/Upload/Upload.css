@@ -1,6 +1,6 @@
 .upload-page {
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 2rem;
 }
 
 .upload-page h1 {
@@ -212,4 +212,25 @@
   color: #718096;
   font-style: italic;
   padding: 2rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.pagination span {
+  color: #4a5568;
+  font-weight: 500;
 }
